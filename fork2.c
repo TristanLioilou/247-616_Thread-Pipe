@@ -1,24 +1,11 @@
-/**
- * @file    fork2.c
- * 
- * @brief   Exemple de code C pour des processus (thread) avec la fonction fork, 
- * 
- * @author  Kevin Cotton
- * @date    2024-08-02
- *
- */
-//#define _XOPEN_SOURCE 800
-#define _GNU_SOURCE 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/wait.h> 
+#include <sys/wait.h> // Inclusion nécessaire pour wait()
 
 const char* processusPereOuFils;
 
 /// @brief Code exécuté par le processus Père
-/// @param  aucun
 void codeDuProcessusParent(void)
 {
     processusPereOuFils = "Processus Père";
@@ -27,7 +14,6 @@ void codeDuProcessusParent(void)
 }
 
 /// @brief Code exécuté par le processus Fils
-/// @param aucun
 void codeDuProcessusEnfant(void)
 {
     processusPereOuFils = "Processus Fils";
@@ -36,17 +22,27 @@ void codeDuProcessusEnfant(void)
 }
 
 /// @brief Exemple de processus Père/Fils avec la fonction 'fork'
-/// @return 0
 int main() 
 {
     pid_t pid;
     pid = fork();
 
-    // Appel fonction Enfant
+    if (pid < 0) {
+        // Gestion des erreurs
+        perror("Erreur de fork");
+        return 1;
+    } 
+    else if (pid == 0) {
+        // Code exécuté par le processus fils
+        codeDuProcessusEnfant();
+    } 
+    else {
+        // Code exécuté par le processus père
+        codeDuProcessusParent();
 
+        // Attendre que le fils se termine
+        wait(NULL); // Le père attend la fin du fils
+    }
 
-    // Appel fonction Parent
-
-    
     return 0;
 }

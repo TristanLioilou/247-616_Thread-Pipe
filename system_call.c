@@ -12,13 +12,14 @@
 #include <stdio.h>
 
 /**
- * 
- *
- *
+ *Affiche processus 1 dans le terminal 
+ *10 secondes plus tard il affiche  processus 3
+ *5 secondes plus tard processus  5
  *
  * @return     0 
  */
-int main() {
+int main()
+ {
   system("echo \"processus 1 \""); 
   system("sleep 10"); // processus 2
   system("echo \"processus 3 \""); 
@@ -27,4 +28,4 @@ int main() {
 
   printf("\n terminé \n");
   return 0;
-}
+ }

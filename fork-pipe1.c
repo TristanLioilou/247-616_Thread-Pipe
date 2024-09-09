@@ -35,20 +35,20 @@ int main() {
         return -1;
     }
 
-    if (pid == 0) { // Code exécuté par le processus ?? A COMPLÉTER
-        close(pipefd[1]);  // Fermer l'extrémité d'écriture dans le processus ?? A COMPLÉTER
+    if (pid == 0) { // Code exécuté par le processus Enfant A COMPLÉTER
+        close(pipefd[1]);  // Fermer l'extrémité d'écriture dans le processus Enfant A COMPLÉTER
         while (read(pipefd[0], &buf, 1) > 0) { // Lecture de tous les données reçus via le 'pipe'
             write(STDOUT_FILENO, &buf, 1); // écriture dans la console-terminal, des données reçus dans le pipe 
         }
         write(STDOUT_FILENO, "\n", 1);
         close(pipefd[0]); // Fermer l'extrémité de lecture après avoir lu
     } 
-    else {  // Code exécuté par le processus ?? A COMPLÉTER
-        close(pipefd[0]);  // Fermer l'extrémité de lecture dans le processus ?? A COMPLÉTER
+    else {  // Code exécuté par le processus Parent A COMPLÉTER
+        close(pipefd[0]);  // Fermer l'extrémité de lecture dans le processus Parent A COMPLÉTER
         const char *msg = "Allo cher enfant\n";
         write(pipefd[1], msg, strlen(msg));
         close(pipefd[1]);  // Fermer l'extrémité d'écriture après avoir écrit
-        wait(NULL);        // Attendre la fin du processus ?? A COMPLÉTER
+        wait(NULL);        // Attendre la fin du processus Parent A COMPLÉTER
     }
 
     return 0;
